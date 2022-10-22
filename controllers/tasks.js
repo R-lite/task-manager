@@ -1,21 +1,73 @@
-const getAllTask = (req, res) => {
-    res.send('Get all task')
+const Task = require('./../models/Task');
+
+const getAllTask = async (req, res) => {
+    try {
+        const tasks = await Task.find({});
+        res.status(200).json({ tasks })
+
+    } catch (err) {
+        res.status(404).json({ msg: err})
+    }
 }
 
-const createTask = (req, res) => {
-    res.send('Create task')
+const createTask = async (req, res) => {
+    try {
+        const task = await Task.create(req.body);
+        res.status(200).json({ task });
+
+    } catch (err) {
+        res.status(400).json({ msg: err })
+    }
+    
 }
 
-const getTask = (req, res) => {
-    res.send('Get single task')
+const getTask = async (req, res) => {
+    try {
+        const {id:taskId} = req.params;
+        const task = await Task.findOne({ _id: taskId });
+
+        if (!task) {
+            return res.status(404).json({ msg: `No such task with Id: ${taskId}` })
+        }
+
+        res.status(200).json({ task })
+
+    } catch (err) {
+        res.status(404).json({ "msg": err })
+    }
 }
 
-const updateTask = (req, res) => {
-    res.send('Update task')
+const updateTask = async (req, res) => {
+    try {
+        const { id:taskId } = req.params;
+        const { name:newName, completed:isCompleted } = req.body;
+        const task = await Task.updateOne({ _id:taskId }, { name:newName, completed:isCompleted });
+
+        if (!task) {
+            return res.status(404).json({ msg: `No such task with Id: ${taskId}` })
+        }
+
+        res.status(200).json({ task })
+
+    } catch (err) {
+        res.status(400).json({ "msg": err })
+    }
 }
 
-const deleteTask = (req, res) => {
-    res.send('delete task')
+const deleteTask = async (req, res) => {
+    try {
+        const { id:taskId } = req.params;
+        const task = await Task.findOneAndDelete({ _id:taskId });
+
+        if (!task) {
+            return res.status(404).json({ msg: `No such task with Id: ${taskId}` })
+        }
+
+        res.status(200).send()
+        
+    } catch (err) {
+        res.status(400).json({ "msg": err })
+    }
 }
 
 module.exports = {
