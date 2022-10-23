@@ -176,7 +176,7 @@ form {
   width: 100%;
   background: var(--white);
   border-radius: var(--borderRadius);
-  box-shadow: var(--shadow-2);
+  /* box-shadow: var(--shadow-2); */
   padding: 2rem 2.5rem;
 }
 label {
@@ -344,7 +344,7 @@ form > :last-child {
   padding: 1rem 2.5rem;
   background: var(--white);
   border-radius: var(--borderRadius);
-  box-shadow: var(--shadow-2);
+  /* box-shadow: var(--shadow-2); */
   transition: var(--transition);
   display: flex;
   justify-content: space-between;
